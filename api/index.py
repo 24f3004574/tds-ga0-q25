@@ -45,7 +45,7 @@ def percentile_95(values):
     return values[lower] + fraction * (values[upper] - values[lower])
 
 
-@app.post("/")
+@app.post("/api")
 def analytics(request: RequestBody):
     result = {}
 
