@@ -2,10 +2,10 @@ import json
 from pathlib import Path
 from statistics import mean
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import Response
 from pydantic import BaseModel
-
 
 app = FastAPI()
 
@@ -43,6 +43,18 @@ def percentile_95(values):
 
     fraction = position - lower
     return values[lower] + fraction * (values[upper] - values[lower])
+
+
+@app.options("/api")
+async def options_api():
+    return Response(
+        status_code=200,
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "*",
+        },
+    )
 
 
 @app.post("/api")
